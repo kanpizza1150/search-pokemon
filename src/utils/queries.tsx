@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const POKEMONS_ALL = gql`
   query {
-    pokemons(first: 1) {
+    pokemons(first: 151) {
       id
       number
       name

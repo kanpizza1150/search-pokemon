@@ -1,39 +1,34 @@
-import { useState, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { POKEMONS_ALL } from '../../utils/queries'
-import { Wrapper } from './styles'
-import Pokemon from '../../components/Pokemon'
+import { Container, Wrapper, HeaderWrapper } from './styles'
+import Table from '../../components/Table'
 
 const App: React.FC = () => {
   const { loading, error, data } = useQuery(POKEMONS_ALL)
   const [searchKey, setSearchKey] = useState('')
-
+  const [pokemons, setPokemons] = useState(data)
+  useEffect(() => {
+    if (data) {
+      setPokemons(data)
+    }
+  }, [data])
   const onSearch = (e: any) => {
     setSearchKey(e.target.value)
   }
 
-  const _renderList = useCallback(() => {
-    if (loading) {
-      return <>loading</>
-    } else if (error) {
-      return <>fetching data error</>
-    } else {
-      return data.pokemons.map((pokemon) => (
-        <Pokemon key={pokemon.id} pokemon={pokemon} />
-      ))
-    }
-  }, [data, loading, error])
-
   return (
-    <Wrapper>
+    <Container>
       Pokemon
       <input
         onChange={onSearch}
         value={searchKey}
         placeholder='Search by name'
       />
-      {_renderList()}
-    </Wrapper>
+      <Wrapper>
+        <Table loading={loading} data={data} error={error} />
+      </Wrapper>
+    </Container>
   )
 }
 export default App
