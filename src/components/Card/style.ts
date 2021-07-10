@@ -31,6 +31,30 @@ export const CardWrapper = styled.div`
     height: 15rem;
     border-bottom: 1rem solid ${setColor.black};
   }
+  .info {
+    font-size: 1.4rem;
+    margin-top: 1rem;
+    width: 100%;
+    ${setFlex()};
+    &.footer {
+      background-color: ${setColor.grey};
+      padding: 0.5rem 1rem;
+    }
+    &__label {
+      font-weight: bold;
+      padding-right: 0.3rem;
+    }
+    &__value {
+      font-weight: normal;
+    }
+    &__div {
+      width: 100%;
+      ${setFlex()};
+      &.footer {
+        ${setFlex('flex-start')};
+      }
+    }
+  }
   .number {
     width: 100%;
     text-align: right;
@@ -47,7 +71,7 @@ export const CardWrapper = styled.div`
     ${borderStyle};
     border-radius: 50%;
     position: absolute;
-    top: 5rem;
+    top: 6rem;
   }
   .title {
     font-weight: bold;
@@ -64,11 +88,15 @@ export const CardWrapper = styled.div`
   .data__wrapper {
     padding: 0 1rem;
     width: 100%;
+
     &:last-child {
       margin: 1rem 0;
     }
     &.att {
       font-size: 1.5rem;
+    }
+    &__inline {
+      ${setFlex('flex-start')};
     }
   }
 

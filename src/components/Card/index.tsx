@@ -149,14 +149,43 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
       </div>
     ))
   }
-
   return (
     <CardWrapper image={pokemon.image}>
-      <div className='name'>{pokemon.name}</div>
+      <div className='name'>
+        {pokemon.name}
+        <div className='info'>
+          <div className='info__div'>
+            <div className='info__label'>Flee Rate: </div>
+            <div className='info__value'>{pokemon.fleeRate}</div>
+          </div>
+          <div className='info__div'>
+            <div className='info__label'> HP: </div>
+            <div className='info__value'>{pokemon.maxHP}</div>
+          </div>
+          <div className='info__div'>
+            <div className='info__label'> CP: </div>
+            <div className='info__value'>{pokemon.maxCP}</div>
+          </div>
+        </div>
+      </div>
       <div className='img' />
       <div className='number'>#{pokemon.number}</div>
       <div className='data__wrapper'>{_renderDataRow()}</div>
       {_renderDataWrapper()}
+      <div className='info footer'>
+        <div className='info__div footer'>
+          <div className='info__label'> Heigh: </div>
+          <div className='info__value'>
+            {pokemon.height.minimum} ~ {pokemon.height.maximum}
+          </div>
+        </div>
+        <div className='info__div footer'>
+          <div className='info__label'> Weight: </div>
+          <div className='info__value'>
+            {pokemon.weight.minimum} ~ {pokemon.weight.maximum}
+          </div>
+        </div>
+      </div>
     </CardWrapper>
   )
 }

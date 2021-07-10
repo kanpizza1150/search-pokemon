@@ -7,4 +7,15 @@ export interface IPokemon {
   resistant: []
   weaknesses: []
   image: string
+  weight: {
+    minimum: number
+    maximum: number
+  }
+  height: {
+    minimum: number
+    maximum: number
+  }
+  fleeRate: number
+  maxCP: number
+  maxHP: number
 }

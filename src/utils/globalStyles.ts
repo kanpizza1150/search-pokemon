@@ -3,8 +3,7 @@ import { createGlobalStyle, css } from 'styled-components'
 export const setFlex = (x: string = 'center', y: string = 'center') => css`
   display: flex;
   justify-content: ${x};
-  align-items: ${y};}
-  align-content: ${y};}
+  align-items: ${y};
 `
 export const setTransition = (
   time: string = '0.2s',

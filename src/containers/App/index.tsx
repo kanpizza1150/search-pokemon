@@ -80,7 +80,8 @@ const App: React.FC = () => {
       return (
         <LoadingWrapper>
           <LoadingSpinner height='25rem' />
-          Fetching data will take sometime...
+          <div>Please wait... Consulting the manual...</div>
+          <div> If I’m not back in five minutes, just wait longer.</div>
         </LoadingWrapper>
       )
     } else if (error) {
