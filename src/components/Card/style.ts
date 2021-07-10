@@ -5,9 +5,11 @@ import {
   setTransition,
   borderStyle,
 } from '../../utils/globalStyles'
+import { ColorTags } from '../TypeTag/style'
 interface ICardWrapper {
   image: string
 }
+
 export const CardWrapper = styled.div`
   overflow: hidden;
   width: 40rem;
@@ -47,6 +49,10 @@ export const CardWrapper = styled.div`
     position: absolute;
     top: 5rem;
   }
+  .title {
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+  }
   .row {
     margin-bottom: 1rem;
     width: 100%;
@@ -56,13 +62,59 @@ export const CardWrapper = styled.div`
     flex-wrap: wrap;
   }
   .data__wrapper {
-    padding: 1rem;
-    padding: 1rem;
+    padding: 0 1rem;
     width: 100%;
+    &:last-child {
+      margin: 1rem 0;
+    }
+    &.att {
+      font-size: 1.5rem;
+    }
   }
-  .attract {
+
+  .evo {
+    &__name {
+      border: 2px solid ${setColor.transparent};
+      border-radius: 5px;
+      padding: 0.1rem 0.5rem;
+      background-color: #ff999b;
+      cursor: pointer;
+      ${setTransition()};
+      &:hover {
+        border-color: ${setColor.black};
+      }
+    }
+    &__arrow {
+      margin: 0 0.7rem;
+    }
     &__wrapper {
       ${setFlex('flex-start')};
     }
   }
+`
+export const AttractWrapper = styled.div`
+  .section {
+    &__sub {
+      margin-bottom: 1rem;
+    }
+    padding-left: 1rem;
+  }
+  .wrapper {
+    padding-left: 1rem;
+    font-size: 1.4rem;
+
+    ${setFlex('flex-start')};
+  }
+`
+interface IAttractDamage {
+  type: string
+}
+export const AttractDamage = styled.div<IAttractDamage>`
+  border-radius: 5px;
+  ${(props) => `color:${ColorTags[props.type]};
+  border: 2px solid ${ColorTags[props.type]};
+`};
+  padding: 0.3rem 0.5rem;
+  font-size: 1rem;
+  margin-left: 0.5rem;
 `

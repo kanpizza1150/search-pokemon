@@ -7,7 +7,7 @@ export const setFlex = (x: string = 'center', y: string = 'center') => css`
   align-content: ${y};}
 `
 export const setTransition = (
-  time: string = '1s',
+  time: string = '0.2s',
   ele: string = 'all',
   animate: string = 'ease-in'
 ) => css`

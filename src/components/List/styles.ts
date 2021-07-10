@@ -14,6 +14,14 @@ export const ListWrapper = styled.div`
   flex-wrap: wrap;
   width: 100%;
   ${setTransition()};
+`
+export const ModalWrapper = styled.div`
+  background-color: ${setColor.white};
+  height: 60rem;
+  width: 100%;
+  ${setFlex()};
+  flex-direction: column;
+  ${borderStyle};
   .word-not-found {
     font-size: 3rem;
     color: ${setColor.grey};
