@@ -21,16 +21,28 @@ export enum setColor {
   lightBlue = '#5db9ff',
   blue = '#363b81',
   black = '#000000',
+  grey = '#c1c1c1',
   transparent = 'transparent',
 }
 
 export default createGlobalStyle`
-    *,
-    html,
-    body {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        font-size:16px;
-    }
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+  *{
+    padding: 0;
+    margin:0;
+    box-sizing:border-box;
+    font-family: 'Roboto', sans-serif;
+  }
+  html{
+    font-size:62.5%;
+  }
+  body{
+    font-size: 1.6rem;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+  }
+
 `

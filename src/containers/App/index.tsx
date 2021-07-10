@@ -1,20 +1,44 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { POKEMONS_ALL } from '../../utils/queries'
-import { Container, Wrapper, HeaderWrapper } from './styles'
+import { Container } from './styles'
 import Table from '../../components/Table'
-
+import { Pokemon } from '../../components/Card'
 const App: React.FC = () => {
-  const { loading, error, data } = useQuery(POKEMONS_ALL)
-  const [searchKey, setSearchKey] = useState('')
-  const [pokemons, setPokemons] = useState(data)
+  const { error, data } = useQuery(POKEMONS_ALL)
+  const [searchKey, setSearchKey] = useState<string>('')
+  const [pokemons, setPokemons] = useState<[]>([])
+
   useEffect(() => {
     if (data) {
-      setPokemons(data)
+      setPokemons(data.pokemons)
     }
   }, [data])
-  const onSearch = (e: any) => {
-    setSearchKey(e.target.value)
+
+  const filterPokemon = (key): void => {
+    const result = pokemons.filter((pokemon: Pokemon) =>
+      pokemon.name.toLowerCase().startsWith(key)
+    )
+    console.log(`result`, result)
+  }
+
+  const onSearch = (e: any): void => {
+    const { value } = e.target
+    setSearchKey(value)
+    filterPokemon(value)
+  }
+
+  const _renderLoadingState = () => <>Loading...</>
+  const _renderErrorState = () => <>Fetching data error</>
+
+  const _handleState = (): JSX.Element => {
+    let items: JSX.Element = _renderLoadingState()
+    if (error) {
+      items = _renderErrorState()
+    } else if (data) {
+      items = <Table pokemons={pokemons} />
+    }
+    return items
   }
 
   return (
@@ -25,9 +49,7 @@ const App: React.FC = () => {
         value={searchKey}
         placeholder='Search by name'
       />
-      <Wrapper>
-        <Table loading={loading} data={data} error={error} />
-      </Wrapper>
+      {_handleState()}
     </Container>
   )
 }
