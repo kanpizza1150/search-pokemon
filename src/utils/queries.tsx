@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const POKEMONS_ALL = gql`
+export const GET_ALL_POKEMONS = gql`
   query {
     pokemons(first: 151) {
       id
@@ -14,6 +14,7 @@ export const POKEMONS_ALL = gql`
         minimum
         maximum
       }
+
       classification
       types
       resistant
@@ -25,3 +26,24 @@ export const POKEMONS_ALL = gql`
     }
   }
 `
+
+export const GET_ATTRACT_BY_NAME = (name: string) => gql`
+    query {
+      pokemon(name: "${name}") {
+        id
+        name
+        attacks {
+          fast {
+            name
+            type
+            damage
+          }
+          special {
+            name
+            type
+            damage
+          }
+        }
+      }
+    }
+  `

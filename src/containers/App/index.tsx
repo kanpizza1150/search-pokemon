@@ -1,55 +1,81 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import { POKEMONS_ALL } from '../../utils/queries'
+import { GET_ALL_POKEMONS } from '../../utils/queries'
+import { IPokemon } from '../../utils/interfaces'
 import { Container } from './styles'
-import Table from '../../components/Table'
-import { Pokemon } from '../../components/Card'
+import List from '../../components/List'
+import Modal from '../../components/Modal'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import { useLocation, useHistory } from 'react-router-dom'
 const App: React.FC = () => {
-  const { error, data } = useQuery(POKEMONS_ALL)
-  const [searchKey, setSearchKey] = useState<string>('')
-  const [pokemons, setPokemons] = useState<[]>([])
+  const { error, data } = useQuery(GET_ALL_POKEMONS)
+  const history = useHistory()
+  const useSearchQuery = () => new URLSearchParams(useLocation().search)
+  const query = useSearchQuery()
+
+  const [pokemons, setPokemons] = useState<any>([])
+  const [searchKey, setSearchKey] = useState<string>(query.get('name') || '')
 
   useEffect(() => {
     if (data) {
       setPokemons(data.pokemons)
+      filterPokemon(searchKey)
     }
-  }, [data])
+  }, [data, searchKey])
 
-  const filterPokemon = (key): void => {
-    const result = pokemons.filter((pokemon: Pokemon) =>
-      pokemon.name.toLowerCase().startsWith(key)
-    )
-    console.log(`result`, result)
+  const filterPokemon = (key: string): void => {
+    let result: [] = data.pokemons
+    if (key !== '') {
+      result = data.pokemons.filter((pokemon: IPokemon) =>
+        pokemon.name.toLowerCase().startsWith(key)
+      )
+    }
+    setPokemons(result)
   }
 
   const onSearch = (e: any): void => {
     const { value } = e.target
     setSearchKey(value)
     filterPokemon(value)
+
+    if (value === '') {
+      history.push({ search: `` })
+    } else {
+      history.push({ search: `?name=${value}` })
+    }
   }
 
-  const _renderLoadingState = () => <>Loading...</>
-  const _renderErrorState = () => <>Fetching data error</>
+  const _renderLoadingState = (): JSX.Element => (
+    <LoadingSpinner height='25rem' />
+  )
+
+  const _renderErrorState = (): JSX.Element => (
+    <Modal>Fetching data error</Modal>
+  )
+
+  const _renderSearchSection = (): JSX.Element => (
+    <input
+      onChange={onSearch}
+      value={searchKey}
+      placeholder="SEARCH BY POKEMON'S NAME"
+      disabled={!data}
+    />
+  )
 
   const _handleState = (): JSX.Element => {
     let items: JSX.Element = _renderLoadingState()
     if (error) {
       items = _renderErrorState()
     } else if (data) {
-      items = <Table pokemons={pokemons} />
+      items = <List pokemons={pokemons} searchKey={searchKey} />
     }
     return items
   }
 
   return (
     <Container>
-      Pokemon
-      <input
-        onChange={onSearch}
-        value={searchKey}
-        placeholder='Search by name'
-      />
-      {_handleState()}
+      <div className='search-wrapper'>{_renderSearchSection()}</div>
+      <div className='body'>{_handleState()}</div>
     </Container>
   )
 }

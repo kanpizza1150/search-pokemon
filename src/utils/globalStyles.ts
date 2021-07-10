@@ -7,7 +7,7 @@ export const setFlex = (x: string = 'center', y: string = 'center') => css`
   align-content: ${y};}
 `
 export const setTransition = (
-  time: string = '0.2s',
+  time: string = '1s',
   ele: string = 'all',
   animate: string = 'ease-in'
 ) => css`
@@ -23,15 +23,20 @@ export enum setColor {
   black = '#000000',
   grey = '#c1c1c1',
   transparent = 'transparent',
+  whiteTrans = 'rgba(255, 255, 255, 0.3)',
 }
 
+export const borderStyle = css`
+  border-radius: 5px;
+  border: 1rem solid ${setColor.black};
+`
+
 export default createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
   *{
     padding: 0;
     margin:0;
     box-sizing:border-box;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Quicksand', sans-serif;
   }
   html{
     font-size:62.5%;
