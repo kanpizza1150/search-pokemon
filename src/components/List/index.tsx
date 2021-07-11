@@ -27,11 +27,11 @@ const List: React.FC<IProps> = ({
 
   const _renderCard = useCallback(() => {
     if (pokemons.length > 0) {
-      return <ListWrapper>{_renderTenCards()}</ListWrapper>
+      return <ListWrapper data-testid='cards'>{_renderTenCards()}</ListWrapper>
     } else if (searchKey !== '') {
       return (
         <ModalWrapper>
-          <div className='word-not-found'>
+          <div className='word-not-found' data-testid='notfound'>
             <span>{searchKey}</span> is not found ❌
           </div>
         </ModalWrapper>

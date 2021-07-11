@@ -14,6 +14,7 @@ jest.mock('@apollo/client', () => ({
   )),
 }))
 
+//TODO: have to mock all imports
 // jest.mock('../LoadingSpinner', () =>
 //   jest.fn((): => <loader data-testid='loader' />)
 // )
