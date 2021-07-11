@@ -8,6 +8,7 @@ import {
 import { ColorTags } from '../TypeTag/style'
 interface ICardWrapper {
   image: string
+  cardHeight: number
 }
 
 export const CardWrapper = styled.div`
@@ -18,8 +19,10 @@ export const CardWrapper = styled.div`
   ${setFlex('flex-start')};
   ${setTransition()};
   flex-direction: column;
-  margin-bottom: 3rem;
   position: relative;
+  grid-row-end: span ${(props) => Math.ceil(props.cardHeight / 10)};
+  height: fit-content;
+  margin-bottom: 3rem;
   .name {
     text-align: center;
     font-size: 3rem;

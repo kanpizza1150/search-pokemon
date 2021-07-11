@@ -7,12 +7,12 @@ import {
 } from '../../utils/globalStyles'
 
 export const ListWrapper = styled.div`
-  border-radius: 5px;
-  overflow: hidden;
-  padding: 2rem;
-  ${setFlex('space-around', 'flex-start')};
-  flex-wrap: wrap;
   width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 40rem);
+  grid-gap: 0.1rem 2rem;
+  justify-content: center;
+  margin: 0 auto;
   ${setTransition()};
 `
 export const ModalWrapper = styled.div`

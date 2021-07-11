@@ -2,26 +2,33 @@ import React, { useCallback } from 'react'
 import { ListWrapper, ModalWrapper } from './styles'
 import Card from '../Card'
 import { IPokemon } from '../../utils/interfaces'
-import LazyLoad from 'react-lazyload'
+
 interface IProps {
   pokemons: []
   searchKey: string
   setSearchKey: React.Dispatch<React.SetStateAction<any>>
+  limit: number
 }
 
-const List: React.FC<IProps> = ({ pokemons, searchKey, setSearchKey }) => {
+const List: React.FC<IProps> = ({
+  pokemons,
+  searchKey,
+  setSearchKey,
+  limit,
+}) => {
+  const _renderTenCards = () =>
+    pokemons.map((pokemon: IPokemon, index) =>
+      index < limit ? (
+        <Card key={pokemon.id} pokemon={pokemon} setSearchKey={setSearchKey} />
+      ) : (
+        <></>
+      )
+    )
+
   const _renderCard = useCallback(() => {
     if (pokemons.length > 0) {
-      return pokemons.map((pokemon: IPokemon) => (
-        <LazyLoad key={pokemon.id} placeholder={<div>load</div>}>
-          <Card
-            key={pokemon.id}
-            pokemon={pokemon}
-            setSearchKey={setSearchKey}
-          />
-        </LazyLoad>
-      ))
-    } else {
+      return <ListWrapper>{_renderTenCards()}</ListWrapper>
+    } else if (searchKey !== '') {
       return (
         <ModalWrapper>
           <div className='word-not-found'>
@@ -30,8 +37,9 @@ const List: React.FC<IProps> = ({ pokemons, searchKey, setSearchKey }) => {
         </ModalWrapper>
       )
     }
-  }, [pokemons, searchKey, setSearchKey])
+    // eslint-disable-next-line
+  }, [pokemons, searchKey, setSearchKey, limit])
 
-  return <ListWrapper>{_renderCard()}</ListWrapper>
+  return <>{_renderCard()}</>
 }
 export default List

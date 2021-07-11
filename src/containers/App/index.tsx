@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useQuery } from '@apollo/client'
-import { GET_ALL_POKEMONS } from '../../utils/queries'
+import { GET_ALL_POKEMONS } from '../../graphql/queries'
 import { IPokemon } from '../../utils/interfaces'
 import { Container, LoadingWrapper } from './styles'
 import List from '../../components/List'
@@ -10,7 +10,7 @@ import { useLocation, useHistory } from 'react-router-dom'
 
 const App: React.FC = () => {
   const { error, data, loading } = useQuery(GET_ALL_POKEMONS, {
-    fetchPolicy: 'no-cache',
+    variables: { first: 151 },
   })
   const history = useHistory()
   const useSearchQuery = () => new URLSearchParams(useLocation().search)
@@ -18,6 +18,39 @@ const App: React.FC = () => {
 
   const [pokemons, setPokemons] = useState<any>([])
   const [searchKey, setSearchKey] = useState<string>(query.get('name') || '')
+  // eslint-disable-next-line
+  const [y, setY] = useState(window.scrollY)
+  const [limit, setLimit] = useState(10)
+  const limitRef = useRef(limit)
+
+  const _handleScroll = () => {
+    const scroll = Math.ceil(window.innerHeight + window.scrollY)
+    const scrollHeight = document.documentElement.scrollHeight
+    const bottom = scroll >= scrollHeight
+    if (bottom) {
+      const prevLimit = limitRef.current
+      setLimitData(prevLimit + 10)
+    }
+  }
+
+  const setLimitData = (val) => {
+    limitRef.current = val
+    setLimit(val)
+  }
+  useEffect(() => {
+    if (limitRef.current !== limit) {
+      setLimit(limitRef.current)
+    }
+    // eslint-disable-next-line
+  }, [limitRef.current])
+
+  useEffect(() => {
+    window.addEventListener('scroll', _handleScroll)
+    return () => {
+      window.removeEventListener('scroll', _handleScroll)
+    }
+    // eslint-disable-next-line
+  }, [y])
 
   useEffect(() => {
     if (data) {
@@ -92,6 +125,7 @@ const App: React.FC = () => {
           pokemons={pokemons}
           searchKey={searchKey}
           setSearchKey={_handelFilter}
+          limit={limitRef.current}
         />
       )
     }

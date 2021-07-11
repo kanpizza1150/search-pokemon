@@ -27,6 +27,6 @@ Run test
 
 ### To be improved
 
-- Rendering large data
+- Rendering large data + Performance Optomization
 - Adding proper type for each element, functions
 - GraphQL integration (follow best practice)

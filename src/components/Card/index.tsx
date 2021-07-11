@@ -5,7 +5,7 @@ import { IPokemon } from '../../utils/interfaces'
 import {
   GET_ATTRACT_BY_NAME,
   GET_EVOLUTIONS_BY_NAME,
-} from '../../utils/queries'
+} from '../../graphql/queries'
 import { useQuery } from '@apollo/client'
 import LoadingSpinner from '../LoadingSpinner'
 
@@ -15,11 +15,19 @@ interface IProps {
 }
 
 const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
+  const [cardHeight, setCardHeight] = React.useState<number>(0)
   const attractsData = useQuery(GET_ATTRACT_BY_NAME, {
     variables: { name: pokemon.name },
   })
   const evolutionData = useQuery(GET_EVOLUTIONS_BY_NAME, {
     variables: { name: pokemon.name },
+  })
+  const ref = React.useRef<HTMLDivElement>(null)
+  // eslint-disable-next-line
+  React.useEffect(() => {
+    if (ref.current) {
+      setCardHeight(ref.current.clientHeight)
+    }
   })
 
   const _renderError = (): JSX.Element => <>❌Fetching Data Error...❌</>
@@ -150,7 +158,7 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
     ))
   }
   return (
-    <CardWrapper image={pokemon.image}>
+    <CardWrapper image={pokemon.image} ref={ref} cardHeight={cardHeight}>
       <div className='name'>
         {pokemon.name}
         <div className='info'>

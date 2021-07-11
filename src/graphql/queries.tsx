@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const GET_ALL_POKEMONS = gql`
-  query {
-    pokemons(first: 10) {
+  query pokemons($first: Int!) {
+    pokemons(first: $first) {
       id
       number
       name
