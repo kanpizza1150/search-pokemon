@@ -97,11 +97,13 @@ const App: React.FC = () => {
         value={searchKey}
         placeholder="SEARCH BY POKEMON'S NAME"
         disabled={!data}
+        data-testid='search-input'
       />
       <button
         onClick={handleClearSearch}
         className='search__button'
         disabled={!data}
+        data-testid='search-clear'
       >
         x
       </button>
@@ -118,7 +120,11 @@ const App: React.FC = () => {
         </LoadingWrapper>
       )
     } else if (error) {
-      return <ModalWrapper>Fetching data error</ModalWrapper>
+      return (
+        <ModalWrapper data-testid='error-message'>
+          Fetching data error
+        </ModalWrapper>
+      )
     } else if (data) {
       return (
         <List

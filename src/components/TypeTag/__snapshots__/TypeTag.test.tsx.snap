@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingSpinner Component Should match snapshot 1`] = `[Function]`;
+
+exports[`LoadingSpinner Component Should render text correctly 1`] = `[Function]`;

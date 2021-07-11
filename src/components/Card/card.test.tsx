@@ -13,12 +13,12 @@ jest.mock('@apollo/client', () => ({
     <apolloprovider>{props.children}</apolloprovider>
   )),
 }))
-
-//TODO: have to mock all imports
-// jest.mock('../LoadingSpinner', () =>
-//   jest.fn((): => <loader data-testid='loader' />)
-// )
-// jest.mock('../TypeTag', () => jest.fn(() => <tag data-testid='tag' />))
+jest.mock('../TypeTag', () => ({ children }) => (
+  <tag data-testid='tag'>{children}</tag>
+))
+jest.mock('../LoadingSpinner', () => ({ children }) => (
+  <loader data-testid='loader'>{children}</loader>
+))
 
 let mockedTypes = ['Dragon']
 let mockedResistant = ['Water', 'Electric']
@@ -46,8 +46,13 @@ describe('Card Component', () => {
     maxCP: 1,
     maxHP: 1,
   }
-
-  beforeEach(() => {})
+  beforeEach(() => {
+    jest.restoreAllMocks()
+    jest.resetAllMocks()
+    mockedPokemon.resistant = []
+    mockedPokemon.weaknesses = []
+    mockedPokemon.types = []
+  })
 
   it('Should match snapshot', () => {
     const { asFragment } = render(<Card pokemon={mockedPokemon} />)
@@ -77,10 +82,13 @@ describe('Card Component', () => {
           },
         },
       }
-      const { getByTestId } = render(<Card pokemon={mockedPokemon} />)
-      expect(getByTestId('attracts').textContent).toBe(
-        'Fast:name |Grass | Damage: 20Special:name |Bug | Damage: 21'
+      const { getByTestId, getAllByTestId } = render(
+        <Card pokemon={mockedPokemon} />
       )
+      expect(getByTestId('attracts').textContent).toBe(
+        'Fast:name | | Damage: 20Special:name | | Damage: 21'
+      )
+      expect(getAllByTestId('tag').length).toBe(2)
     })
   })
   describe('Evolution section', () => {
@@ -133,20 +141,18 @@ describe('Card Component', () => {
     })
     it('Should render Resistant correctly', () => {
       mockedPokemon.resistant = mockedResistant
-      const { getByTestId } = render(<Card pokemon={mockedPokemon} />)
-      expect(getByTestId('tag-Water')).toBeInTheDocument()
-      expect(getByTestId('tag-Electric')).toBeInTheDocument()
+      const { getAllByTestId } = render(<Card pokemon={mockedPokemon} />)
+      expect(getAllByTestId('tag').length).toBe(4)
     })
     it('Should render Weaknesses correctly', () => {
       mockedPokemon.weaknesses = mockedWeaknesses
-      const { getByTestId } = render(<Card pokemon={mockedPokemon} />)
-      expect(getByTestId('tag-Fighting')).toBeInTheDocument()
-      expect(getByTestId('tag-Fairy')).toBeInTheDocument()
+      const { getAllByTestId } = render(<Card pokemon={mockedPokemon} />)
+      expect(getAllByTestId('tag').length).toBe(4)
     })
     it('Should render Type correctly', () => {
       mockedPokemon.types = mockedTypes
-      const { getByTestId } = render(<Card pokemon={mockedPokemon} />)
-      expect(getByTestId('tag-Dragon')).toBeInTheDocument()
+      const { getAllByTestId } = render(<Card pokemon={mockedPokemon} />)
+      expect(getAllByTestId('tag').length).toBe(3)
     })
   })
 })

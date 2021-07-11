@@ -1,4 +1,4 @@
-import { fireEvent, render, waitForElement } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import List from './index'
 
 let mockedUseQuery = {
