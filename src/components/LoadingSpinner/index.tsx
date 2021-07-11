@@ -29,6 +29,13 @@ interface IProps {
 }
 
 const LoadingSpinner: React.FC<IProps> = ({ height }) => {
-  return <Loader src={pokeBall} alt='loading' height={height || '5rem'} />
+  return (
+    <Loader
+      src={pokeBall}
+      alt='loading'
+      height={height || '5rem'}
+      data-testid='loader'
+    />
+  )
 }
 export default LoadingSpinner

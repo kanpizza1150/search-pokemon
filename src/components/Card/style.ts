@@ -23,6 +23,12 @@ export const CardWrapper = styled.div`
   grid-row-end: span ${(props) => Math.ceil(props.cardHeight / 10)};
   height: fit-content;
   margin-bottom: 3rem;
+  .classification {
+    text-align: center;
+    font-size: 1.4rem;
+    color: ${setColor.black};
+    padding: 0.8rem;
+  }
   .name {
     text-align: center;
     font-size: 3rem;
@@ -31,7 +37,7 @@ export const CardWrapper = styled.div`
     background-color: ${setColor.red};
     color: ${setColor.white};
     width: 100%;
-    height: 15rem;
+    height: 18rem;
     border-bottom: 1rem solid ${setColor.black};
   }
   .info {
@@ -74,7 +80,7 @@ export const CardWrapper = styled.div`
     ${borderStyle};
     border-radius: 50%;
     position: absolute;
-    top: 6rem;
+    top: 10rem;
   }
   .title {
     font-weight: bold;

@@ -19,6 +19,7 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
   const attractsData = useQuery(GET_ATTRACT_BY_NAME, {
     variables: { name: pokemon.name },
   })
+
   const evolutionData = useQuery(GET_EVOLUTIONS_BY_NAME, {
     variables: { name: pokemon.name },
   })
@@ -30,7 +31,9 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
     }
   })
 
-  const _renderError = (): JSX.Element => <>❌Fetching Data Error...❌</>
+  const _renderError = (): JSX.Element => (
+    <div data-testid='error-mesg'>❌Fetching Data Error...❌</div>
+  )
 
   const _renderType = (types): JSX.Element => (
     <div className='tag__wrapper'>
@@ -59,6 +62,7 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
         className='evo__name'
         key={data.id}
         onClick={() => onEvoNameClicked(data.name)}
+        data-testid={data.name}
       >
         {data.name}
       </button>
@@ -74,7 +78,7 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
       result = _renderError()
     } else if (data) {
       result = (
-        <AttractWrapper>
+        <AttractWrapper data-testid='attracts'>
           Fast:
           <div className='section__sub'>
             {data.pokemon.attacks.fast.map((fast) => _renderAttract(fast))}
@@ -114,8 +118,8 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
   const _renderDataRow = (): JSX.Element[] => {
     const sections = [
       {
-        title: 'Classification',
-        key: 'classification',
+        title: 'Types',
+        key: 'type',
         value: pokemon.types,
       },
       {
@@ -130,7 +134,7 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
       },
     ]
     return sections.map((section) => (
-      <div className='row' key={section.key}>
+      <div className='row' key={section.key} data-testid={section.key}>
         <div className='title'>{section.title}: </div>
         {_renderType(section.value)}
       </div>
@@ -151,7 +155,11 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
       },
     ]
     return sections.map((section) => (
-      <div className='data__wrapper att' key={section.key}>
+      <div
+        className='data__wrapper att'
+        key={section.key}
+        data-testid={section.key}
+      >
         <div className='title'>{section.title}: </div>
         {section.value}
       </div>
@@ -159,8 +167,9 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
   }
   return (
     <CardWrapper image={pokemon.image} ref={ref} cardHeight={cardHeight}>
-      <div className='name'>
+      <div className='name' data-testid='info'>
         {pokemon.name}
+        <div className='classification'>{pokemon.classification}</div>
         <div className='info'>
           <div className='info__div'>
             <div className='info__label'>Flee Rate: </div>
@@ -176,18 +185,20 @@ const Card: React.FC<IProps> = ({ pokemon, setSearchKey }) => {
           </div>
         </div>
       </div>
-      <div className='img' />
-      <div className='number'>#{pokemon.number}</div>
+      <div className='img' data-testid='image' />
+      <div className='number' data-testid='number'>
+        #{pokemon.number}
+      </div>
       <div className='data__wrapper'>{_renderDataRow()}</div>
       {_renderDataWrapper()}
       <div className='info footer'>
-        <div className='info__div footer'>
+        <div className='info__div footer' data-testid='height'>
           <div className='info__label'> Heigh: </div>
           <div className='info__value'>
             {pokemon.height.minimum} ~ {pokemon.height.maximum}
           </div>
         </div>
-        <div className='info__div footer'>
+        <div className='info__div footer' data-testid='weight'>
           <div className='info__label'> Weight: </div>
           <div className='info__value'>
             {pokemon.weight.minimum} ~ {pokemon.weight.maximum}

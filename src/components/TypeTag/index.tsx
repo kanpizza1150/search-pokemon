@@ -5,6 +5,10 @@ interface IProps {
   type: string
 }
 const TypeTag: React.FC<IProps> = ({ type }) => {
-  return <TagWrapper colorType={type}>{type}</TagWrapper>
+  return (
+    <TagWrapper colorType={type} data-testid={`tag-${type}`}>
+      {type}
+    </TagWrapper>
+  )
 }
 export default TypeTag
