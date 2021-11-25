@@ -1,7 +1,7 @@
 # Search Pokémon
 
 This project is developed within 2 days with zero knowledge of GraphQL integration and TypeScript 😆😆
-
+#### Hosted at https://search-pokemon-onework.netlify.app/
 #### Data from [Pokémon API](https://wayfair.github.io/dociql/)
 
 ### Tools used
